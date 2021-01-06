@@ -116,7 +116,7 @@ class TwitterExecuteAPI():
                         hantei=0
                         continue
 
-                if (result.text in self.results_text) or (result.is_quote_status == True) or (result.retweeted==True) or (hantei==0)#今まで見たツイートと同一か、引用ツイートか,自分はこのツイートをすでにRTしているか
+                if (result.text in self.results_text) or (result.is_quote_status == True) or (result.retweeted==True) or (hantei==0):#今まで見たツイートと同一か、引用ツイートか,自分はこのツイートをすでにRTしているか
                     continue
                 self.results_text.append(result.text)
                 self.results.append(result)

@@ -67,10 +67,10 @@ class TwitterExecuteAPI():
     def is_freeze(self):#凍結確認
         #フリーズしてたらTrueをreturnする
         try:
-            results = self.api.home_timeline(count=2)
+            results = self.api.search(q=rh() + " " +rh() + " " +rh() + " " +rh() + " " +rh(),locale='ja', count=2)
             for result in results:
                 self.api.retweet(result.id)
-                return False #凍結してない
+            return False #凍結してない
         except:
             return True #凍結してる
 

@@ -10,6 +10,8 @@ import os.path
 from usefullFunctions import rh,writefreeze,AIlistCreate,WordsCreate #自作便利関数ず
 from sendMail import send_mail
 from TwitterExecute import TwitterExecuteAPI #自作tweepy操作クラス
+from dotenv import load_dotenv
+load_dotenv()
 
 
 #並列処理の開始
@@ -29,6 +31,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
     num = 1
     while True:
         try:
+            print(f"RTbot{ID} 待機")
             time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
         except:
             pass
@@ -48,6 +51,8 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             else: #凍結していなかったら
                 AIlist[myindex] = [AIlist[myindex][0],AIlist[myindex][1],AIlist[myindex][2],AIlist[myindex][3],AIlist[myindex][4],AIlist[myindex][5],False]#freezeをfalseに
 
+            print(f"bot:{ID} name:{AIlist[myindex][1]} freeze:{AIlist[myindex][6]}")
+
             Api.get_tweets()#懸賞ツイートを取得、情報を格納
             #Api.test()#テストコードの実行
             Api.rt_and_like()#リツイートといいねをするよ
@@ -66,21 +71,23 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
 
 def updatebot(AIlist,Words):#データベースとメモリを連携させます
     while True:
-
-        time.sleep(10*60)
-            #AIlistの凍結情報をdbに書き込む
-        conn = psycopg2.connect(DATABASE_URL, sslmode='require') #データベース情報とつなぎます
-        with conn.cursor(cursor_factory=DictCursor) as cur:
-            for list in AIlist:
-                cur.execute(f"""UPDATE AccountInfo SET isfreeze = {list[6]} WHERE id={list[0]}""") #書き込むよ
-        #AIlistのbot情報をデータベースから引っ張ってくる
-        AIlistTemp = AIlistCreate(DATABASE_URL) #リスト形式で最新のAIlistを取得
-        for list in AIlistTemp:
-            AIlist[list[0]-1] = list #バグ対策
-        #Wordsの中身をdbから更新
-        WordsTemp = WordsCreate(DATABASE_URL)#リスト形式で最新のWordsを取得
-        for list in WordsTemp:
-            Words[list[0]-1] = list
+        try:
+            time.sleep(10*60)
+                #AIlistの凍結情報をdbに書き込む
+            conn = psycopg2.connect(DATABASE_URL, sslmode='require') #データベース情報とつなぎます
+            with conn.cursor(cursor_factory=DictCursor) as cur:
+                for list in AIlist:
+                    cur.execute(f"""UPDATE AccountInfo SET isfreeze = {list[6]} WHERE id={list[0]}""") #書き込むよ
+            #AIlistのbot情報をデータベースから引っ張ってくる
+            AIlistTemp = AIlistCreate(DATABASE_URL) #リスト形式で最新のAIlistを取得
+            for list in AIlistTemp:
+                AIlist[list[0]-1] = list #バグ対策
+            #Wordsの中身をdbから更新
+            WordsTemp = WordsCreate(DATABASE_URL)#リスト形式で最新のWordsを取得
+            for list in WordsTemp:
+                Words[list[0]-1] = list
+        except:
+            pass
 
 
 

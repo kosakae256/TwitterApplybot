@@ -3,6 +3,8 @@ import os
 import psycopg2
 from os import environ as env
 from psycopg2.extras import DictCursor
+from dotenv import load_dotenv
+load_dotenv()
 
 DATABASE_URL = env["DATABASE_URL"]
 

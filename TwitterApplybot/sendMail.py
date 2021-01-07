@@ -1,6 +1,8 @@
 import smtplib, ssl
 from email.mime.text import MIMEText
 from os import environ as env
+from dotenv import load_dotenv
+load_dotenv()
 
 # 以下にGmailの設定を書き込む --- (環境変数に入れてあります)
 gmail_account = env["SEND_MAILADRESS"]

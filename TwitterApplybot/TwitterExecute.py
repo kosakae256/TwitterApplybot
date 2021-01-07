@@ -67,9 +67,7 @@ class TwitterExecuteAPI():
     def is_freeze(self):#凍結確認
         #フリーズしてたらTrueをreturnする
         try:
-            results = self.api.search(q=rh() + " " +rh() + " " +rh() + " " +rh() + " " +rh(),locale='ja', count=2)
-            for result in results:
-                self.api.retweet(result.id)
+            self.api.update_profile(name=self.api.get_user(self.myname).name)
             return False #凍結してない
         except:
             return True #凍結してる
@@ -135,4 +133,4 @@ class TwitterExecuteAPI():
             if (result.user.following == False) and (target not in self.target_users) and (target != self.myname): #ユーザーをフォローしていないこと、この処理中に同じ人を指していないか、自分を指していないか
                 self.target_users.append(target)
                 if self.myname in self.target_users:
-                    self.target_users.remove(self.myname) #self.myname(自分)を削除します。これは念のための処置です
+                    self.target_users.remove(self.myname) #self.myname(自分)をリストから削除します。これは念のための処置です

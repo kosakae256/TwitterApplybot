@@ -4,20 +4,19 @@ import time
 def f(l):
     while True:
         time.sleep(1)
-        print(l)
+        print(id(l))
 
 def f3(l):
     while True:
         time.sleep(1)
-        print(l[0][0])
+        print(id(l))
 
 def f2(l,i):
     time.sleep(0.1)
     for i in range(0,100):
         l[0][0] = i
         l[0] = [1,2,3]
-        l[1] =[4544,454,65634]
-        print(l)
+        print(id(l))
         time.sleep(1)
 
 if __name__ == '__main__':

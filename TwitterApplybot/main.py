@@ -48,10 +48,10 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             Api = TwitterExecuteAPI(AIlist[myindex],Words) #api操作用,Wordsは検索条件
             if Api.is_freeze() == True:#凍結確認 誤検出対策で凍結してても動作させる
                 writefreeze(AIlist,myindex,RECEIVE_MAILADRESS)#AIlist[index][6]にTrueを書き込み、凍結確認メールを送る
+                continue
             else: #凍結していなかったら
                 AIlist[myindex] = [AIlist[myindex][0],AIlist[myindex][1],AIlist[myindex][2],AIlist[myindex][3],AIlist[myindex][4],AIlist[myindex][5],False]#freezeをfalseに
 
-            print(f"bot:{ID} name:{AIlist[myindex][1]} freeze:{AIlist[myindex][6]}")
 
             Api.get_tweets()#懸賞ツイートを取得、情報を格納
             #Api.test()#テストコードの実行
@@ -72,12 +72,13 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
 def updatebot(AIlist,Words):#データベースとメモリを連携させます
     while True:
         try:
-            time.sleep(10*60)
+            time.sleep(60)
                 #AIlistの凍結情報をdbに書き込む
             conn = psycopg2.connect(DATABASE_URL, sslmode='require') #データベース情報とつなぎます
             with conn.cursor(cursor_factory=DictCursor) as cur:
                 for list in AIlist:
                     cur.execute(f"""UPDATE AccountInfo SET isfreeze = {list[6]} WHERE id={list[0]}""") #書き込むよ
+                conn.commit() #しっかりやろう、結果にコミット(これがないせいでバグが発生していた)
             #AIlistのbot情報をデータベースから引っ張ってくる
             AIlistTemp = AIlistCreate(DATABASE_URL) #リスト形式で最新のAIlistを取得
             for list in AIlistTemp:
@@ -97,16 +98,16 @@ def main():
     AIlist = manager.list(AIlistCreate(DATABASE_URL))#botの情報一式をdbから受け取り、共有メモリに格納
     Words = manager.list(WordsCreate(DATABASE_URL))#検索条件をdbから(上と類似)
 
-    botList=[0 for i in range(0,10)]#botのサブプロセスリスト
-    for i in range(0,10):
+    botList=[0 for i in range(0,50)]#botのサブプロセスリスト
+    for i in range(0,50):
         time.sleep(2)
-        botList[i] = Process(target=bot, args=(i+1,AIlist,Words))#自分のidと共有メモリのbot情報と共有メモリの検索条件を持つ
+        botList[i] = Process(target=bot, args=(i+1,AIlist,Words,))#自分のidと共有メモリのbot情報と共有メモリの検索条件を持つ
         botList[i].start()#RTbot50個を動かす
 
     updatebotinstance = Process(target=updatebot,args=(AIlist,Words,))#dbと連携して情報をリアルタイムで更新できるようにする(10分ごと)
     updatebotinstance.start()
 
-    botList[0].join()
+    updatebotinstance.join()
 
 
 

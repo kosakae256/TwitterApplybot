@@ -1,3 +1,4 @@
 tweepy
 schedule
 psycopg2
+python-dotenv

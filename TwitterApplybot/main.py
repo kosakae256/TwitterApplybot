@@ -72,7 +72,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
 def updatebot(AIlist,Words):#データベースとメモリを連携させます
     while True:
         try:
-            time.sleep(60)
+            time.sleep(5*60)
                 #AIlistの凍結情報をdbに書き込む
             conn = psycopg2.connect(DATABASE_URL, sslmode='require') #データベース情報とつなぎます
             with conn.cursor(cursor_factory=DictCursor) as cur:
@@ -81,14 +81,16 @@ def updatebot(AIlist,Words):#データベースとメモリを連携させます
                 conn.commit() #しっかりやろう、結果にコミット(これがないせいでバグが発生していた)
             #AIlistのbot情報をデータベースから引っ張ってくる
             AIlistTemp = AIlistCreate(DATABASE_URL) #リスト形式で最新のAIlistを取得
+            del AIlist[:]
+            del Words[:]
             for list in AIlistTemp:
-                AIlist[list[0]-1] = list #バグ対策
+                    AIlist.append(list)
             #Wordsの中身をdbから更新
             WordsTemp = WordsCreate(DATABASE_URL)#リスト形式で最新のWordsを取得
             for list in WordsTemp:
-                Words[list[0]-1] = list
+                    Words.append(list)
         except:
-            pass
+            print("a")
 
 
 
@@ -98,18 +100,23 @@ def main():
     AIlist = manager.list(AIlistCreate(DATABASE_URL))#botの情報一式をdbから受け取り、共有メモリに格納
     Words = manager.list(WordsCreate(DATABASE_URL))#検索条件をdbから(上と類似)
 
-    botList=[0 for i in range(0,50)]#botのサブプロセスリスト
+    botList=[0 for i in range(0,50)]#botのサブプロセスリスト 今は50個までの制限
     for i in range(0,50):
         time.sleep(2)
         botList[i] = Process(target=bot, args=(i+1,AIlist,Words,))#自分のidと共有メモリのbot情報と共有メモリの検索条件を持つ
         botList[i].start()#RTbot50個を動かす
 
-    updatebotinstance = Process(target=updatebot,args=(AIlist,Words,))#dbと連携して情報をリアルタイムで更新できるようにする(10分ごと)
+    updatebotinstance = Process(target=updatebot,args=(AIlist,Words,))#dbと連携して情報をリアルタイムで更新できるようにする(5分ごと)
     updatebotinstance.start()
 
+    #testbotinstance = Process(target=testbot,args=(AIlist,Words,))
+    #testbotinstance.start()
     updatebotinstance.join()
 
-
+def testbot(AIlist,Words):
+    while True:
+        time.sleep(5)
+        print(AIlist,Words)
 
 
 if '__main__' == __name__:

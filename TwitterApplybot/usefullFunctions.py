@@ -42,7 +42,7 @@ def AIlistCreate(database_url):#全てのアカウント情報をdbから引っ�
 def WordsCreate(database_url):#全ての検索条件情報をdbから引っ張ってくる
     conn = psycopg2.connect(database_url, sslmode='require')#データベース情報とつなぎます
     with conn.cursor(cursor_factory=DictCursor) as cur: #cursor_factory=DictCursorこうするとfetchしたときに辞書形式で返してくれて便利(バグでリスト形式で帰ってくる)
-        cur.execute(f'select * from Words;')
+        cur.execute(f'select * from Words ORDER BY id ASC;')
         Words=cur.fetchall()
     return Words#懸賞アカウントのOauthなどを全て取ってくる
 

@@ -62,7 +62,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             Api.targetUsersCreate() #フォローすべき人の最新の28件を作ります
 
             if num%2 == 0: #1時間に一回フォローをするための処理
-                Api.follow28() #最新の28人をフォローします
+                Api.follow() #最新の28人をフォローします
                 print(f"Followbot{ID}の処理 {int(num/2)}回目終了")
 
         except:

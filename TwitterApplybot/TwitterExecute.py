@@ -29,21 +29,22 @@ class TwitterExecuteAPI():
         count=0
         for result in self.results:
             time.sleep(10)
-            if (result.retweeted == False):#リツイートされていなかったら
-                try:
-                    self.api.retweet(result.id)
-                    count+=1
-                    #print("リツイートしたよ")
-                except:
-                    pass
+            if random.randint(1,2) == 1:#半分欠落
+                if (result.retweeted == False):#リツイートされていなかったら
+                    try:
+                        self.api.retweet(result.id)
+                        count+=1
+                        #print("リツイートしたよ")
+                    except:
+                        pass
 
-            if (result.favorited == False):#いいねされてなかったら
-                try:
-                    self.api.create_favorite(result.id)
-                except:
-                    pass
-            if count==100:
-                break
+                if (result.favorited == False):#いいねされてなかったら
+                    try:
+                        self.api.create_favorite(result.id)
+                    except:
+                        pass
+                if count==50:
+                    break
 
 
     def follow(self):#最新の28人フォローするよ。意地でもフォローするよ。 #パッチ1.1.0更新 最大数を28→10に変更 waitを5秒持たせる 安定化とツイート連続取得対策

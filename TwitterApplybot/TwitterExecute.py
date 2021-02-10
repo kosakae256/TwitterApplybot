@@ -26,11 +26,13 @@ class TwitterExecuteAPI():
     def rt_and_like(self):#渡されたツイート情報にRTといいねをするよ #パッチ1.1.0更新 waitを2.5秒持たせる 連続して処理するとツイッターさんに怒られる
         #self.resultsに全部情報が入ってる
         #self.resultsをforで回して、RTといいねをするよ。エラー馬鹿分かりずらいから念のためtryを掛けておく。あとリツイート一回したことあったら処理とばす
+        count=0
         for result in self.results:
-            time.sleep(2.5)
+            time.sleep(10)
             if (result.retweeted == False):#リツイートされていなかったら
                 try:
                     self.api.retweet(result.id)
+                    count+=1
                     #print("リツイートしたよ")
                 except:
                     pass
@@ -40,6 +42,8 @@ class TwitterExecuteAPI():
                     self.api.create_favorite(result.id)
                 except:
                     pass
+            if count==100:
+                break
 
 
     def follow(self):#最新の28人フォローするよ。意地でもフォローするよ。 #パッチ1.1.0更新 最大数を28→10に変更 waitを5秒持たせる 安定化とツイート連続取得対策
@@ -49,7 +53,7 @@ class TwitterExecuteAPI():
             self.target_users = self.target_users[-10:-1]
 
         for target in self.target_users:
-            time.sleep(5)
+            time.sleep(10)
             try:
                 self.api.create_friendship(target)
                 #print(target)

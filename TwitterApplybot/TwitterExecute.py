@@ -29,7 +29,7 @@ class TwitterExecuteAPI():
         #self.resultsをforで回して、RTといいねをするよ。エラー馬鹿分かりずらいから念のためtryを掛けておく。あとリツイート一回したことあったら処理とばす
         count=0
         for result in self.results:
-            time.sleep(20)
+            time.sleep(10)
             if random.randint(1,2) == 1:
                 continue
             if (result[0] == False):#リツイートされていなかったら

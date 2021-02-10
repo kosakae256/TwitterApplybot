@@ -32,7 +32,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
     while True:
         try:
             print(f"RTbot{ID} 待機")
-            time.sleep(5)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
+            time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
         except:
             pass
 

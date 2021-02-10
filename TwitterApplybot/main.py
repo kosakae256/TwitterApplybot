@@ -69,6 +69,9 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
                 print(f"Followbot{ID}の処理 {int(num/2)}回目終了")
             del Api#メモリ解放
 
+            if num%4 == 0: #2時間おきに、適当な言葉の羅列をツイートして凍結対策
+                Api.api.update_status(rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh())
+
         except:
             print("bot",ID, "原因不明エラー")
 

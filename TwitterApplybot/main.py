@@ -40,6 +40,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
                 AIlist[myindex]
             except IndexError:
                 print("アカウントが存在しません")
+                time.sleep(30*60)
                 continue
 
             Api = TwitterExecuteAPI(AIlist[myindex],Words) #api操作用,Wordsは検索条件

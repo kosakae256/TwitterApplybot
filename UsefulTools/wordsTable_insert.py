@@ -39,16 +39,13 @@ with conn.cursor(cursor_factory=DictCursor) as cur:#テーブル消してから�
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('google play プレゼント <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('pc プレゼント <time> <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('ニンテンド プレゼント <random> <random2>',1)""")
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('ギフトカード プレゼント <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('ギフトカード プレゼント <random>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('ギフトカード プレゼント <random> <random2>',1)""")
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('iTunes プレゼント <random> <random2>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('iTunes プレゼント <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('iTunes プレゼント <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('iTunes プレゼント <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('iTunes プレゼント <random> <random2>',1)""")
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazonギフト プレゼント <time>',1)""")
@@ -57,17 +54,13 @@ with conn.cursor(cursor_factory=DictCursor) as cur:#テーブル消してから�
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay リツイート <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay リツイート <time> <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay リツイート <time> <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay フォロー <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay フォロー <time> <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('paypay フォロー <time> <random> <random2>',1)""")
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon リツイート <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon リツイート <time> <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon リツイート <time> <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon フォロー <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon フォロー <time> <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('amazon フォロー <time> <random> <random2>',1)""")
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('アマギフ プレゼント <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('アマギフ プレゼント <time> <random>',1)""")
@@ -81,9 +74,7 @@ with conn.cursor(cursor_factory=DictCursor) as cur:#テーブル消してから�
 
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random> <random2>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random> <random2>',1)""")
-    cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random> <random2>',1)""")
+
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <random> <random2>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <time>',1)""")
     cur.execute("""INSERT INTO Words (word,isdisc) VALUES('Amazon プレゼント <time> <random>',1)""")

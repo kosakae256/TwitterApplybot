@@ -28,7 +28,7 @@ def writefreeze(AIlist,myindex,receive_mailadress):#凍結した旨をAIlistに�
         return
     AIlist[myindex] = [AIlist[myindex][0],AIlist[myindex][1],AIlist[myindex][2],AIlist[myindex][3],AIlist[myindex][4],AIlist[myindex][5],True]
     print("凍結メール送信")
-    send_mail(receive_mailadress,AIlist[myindex][1] + "は凍結してるかもしれない","件名の通り、ご確認ください。") #送信先、件名、メッセージ
+    #send_mail(receive_mailadress,AIlist[myindex][1] + "は凍結してるかもしれない","件名の通り、ご確認ください。") #送信先、件名、メッセージ うるさいから解除中
 
 
 def AIlistCreate(database_url):#全てのアカウント情報をdbから引っ張ってくる

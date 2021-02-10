@@ -29,7 +29,7 @@ class TwitterExecuteAPI():
         #self.resultsをforで回して、RTといいねをするよ。エラー馬鹿分かりずらいから念のためtryを掛けておく。あとリツイート一回したことあったら処理とばす
         count=0
         for result in self.results:
-            time.sleep(10)
+            time.sleep(2.5)
             if random.randint(1,2) == 1:
                 continue
             if (result[0] == False):#リツイートされていなかったら
@@ -53,7 +53,7 @@ class TwitterExecuteAPI():
             self.target_users = self.target_users[-10:-1]
 
         for target in self.target_users:
-            time.sleep(10)
+            time.sleep(5)
             try:
                 self.api.create_friendship(target)
                 #print(target)
@@ -109,7 +109,7 @@ class TwitterExecuteAPI():
             hantei=1
             try:#謎のエラーが出ることがあるのでこれで対処
                 time.sleep(5) #twitter鯖に負荷を掛けないように
-                results = self.api.search(q=q,locale='ja', count=100,result_type = "mixed")#検索ワードqを検索
+                results = self.api.search(q=q,locale='ja', count=50,result_type = "mixed")#検索ワードqを検索
             except:
                 print("検索地点でタイムアウトが発生しました")
                 continue

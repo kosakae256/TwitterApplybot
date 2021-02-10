@@ -30,16 +30,10 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
     myindex = ID-1
     num = 1
     while True:
-        try:
-            print(f"RTbot{ID} 待機")
-            time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
-        except:
-            pass
 
         try:#謎のエラー対処用
             print(f"RTbot{ID} 実行")
-            if num%4==0:
-                Api.api.update_status(rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh())
+
 
 
             try:  #アカウントが無かったら先頭から
@@ -50,8 +44,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
 
             Api = TwitterExecuteAPI(AIlist[myindex],Words) #api操作用,Wordsは検索条件
             if Api.is_freeze() == True:#凍結確認 誤検出対策で凍結してても動作させる
-                writefreeze(AIlist,myindex,RECEIVE_MAILADRESS)#AIlist[index][6]にTrueを書き込み、凍結確認メールを送る
-                continue
+                writefreeze(AIlist,myindex,RECEIVE_MAILADRESS)#AIlist[index][6]にTrueを書き込み、//凍結確認メールを送る
             else: #凍結していなかったら
                 AIlist[myindex] = [AIlist[myindex][0],AIlist[myindex][1],AIlist[myindex][2],AIlist[myindex][3],AIlist[myindex][4],AIlist[myindex][5],False]#freezeをfalseに
 
@@ -67,13 +60,18 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             if num%2 == 0: #1時間に一回フォローをするための処理
                 Api.follow() #最新の28人をフォローします
                 print(f"Followbot{ID}の処理 {int(num/2)}回目終了")
-            del Api#メモリ解放
 
             if num%4 == 0: #2時間おきに、適当な言葉の羅列をツイートして凍結対策
                 Api.api.update_status(rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh())
-
+            del Api#メモリ解放
         except:
             print("bot",ID, "原因不明エラー")
+
+        try:
+            print(f"RTbot{ID} 待機")
+            time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
+        except:
+            pass
 
 
 def updatebot(AIlist,Words):#データベースとメモリを連携させます

@@ -27,6 +27,7 @@ class TwitterExecuteAPI():
     def rt_and_like(self):#渡されたツイート情報にRTといいねをするよ #パッチ1.1.0更新 waitを2.5秒持たせる 連続して処理するとツイッターさんに怒られる
         #self.resultsに全部情報が入ってる
         #self.resultsをforで回して、RTといいねをするよ。エラー馬鹿分かりずらいから念のためtryを掛けておく。あとリツイート一回したことあったら処理とばす
+        count=0
         for result in self.results:
             time.sleep(20)
             if random.randint(1,2) == 1:

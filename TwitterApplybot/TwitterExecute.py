@@ -47,7 +47,7 @@ class TwitterExecuteAPI():
 
 
     def follow(self):#最新の28人フォローするよ。意地でもフォローするよ。 #パッチ1.1.0更新 最大数を28→10に変更 waitを5秒持たせる 安定化とツイート連続取得対策
-        print("フォロー対象ユーザー数 : ",len(self.target_users))
+        print(f"{self.myname}→フォロー対象ユーザー数 : ",len(self.target_users))
         #print(self.target_users)
         if 10 < len(self.target_users):
             self.target_users = self.target_users[-10:-1]
@@ -67,7 +67,7 @@ class TwitterExecuteAPI():
         self.discTweet() #self.ngwords,self.searchwordsに情報伝達をする
         #同一ツイートも検知して削除するようにする
         self.resultsCreater()#self.resultsに処理したいツイートを総入れ
-        print("ツイート取得数 : ",len(self.results))
+        print(f"{self.myname}→ツイート取得数 : ",len(self.results))
 
 
     def is_freeze(self):#凍結確認
@@ -111,7 +111,7 @@ class TwitterExecuteAPI():
                 time.sleep(5) #twitter鯖に負荷を掛けないように
                 results = self.api.search(q=q,locale='ja', count=50,result_type = "mixed")#検索ワードqを検索
             except:
-                print("検索地点でタイムアウトが発生しました")
+                print(f"{self.myname}→検索地点でタイムアウトが発生しました")
                 continue
 
             for result in results:

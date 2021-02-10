@@ -32,12 +32,15 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
     while True:
         try:
             print(f"RTbot{ID} 待機")
-            time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
+            time.sleep(5)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
         except:
             pass
 
         try:#謎のエラー対処用
             print(f"RTbot{ID} 実行")
+            if num%4==0:
+                Api.api.update_status(rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh()+rh())
+
 
             try:  #アカウントが無かったら先頭から
                 AIlist[myindex]
@@ -64,6 +67,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             if num%2 == 0: #1時間に一回フォローをするための処理
                 Api.follow() #最新の28人をフォローします
                 print(f"Followbot{ID}の処理 {int(num/2)}回目終了")
+            del Api#メモリ解放
 
         except:
             print("bot",ID, "原因不明エラー")
@@ -89,6 +93,9 @@ def updatebot(AIlist,Words):#データベースとメモリを連携させます
             WordsTemp = WordsCreate(DATABASE_URL)#リスト形式で最新のWordsを取得
             for list in WordsTemp:
                     Words.append(list)
+
+            del AIlistTemp
+            del WordsTemp
         except:
             print("a")
 
@@ -102,7 +109,7 @@ def main():
 
     botList=[0 for i in range(0,50)]#botのサブプロセスリスト 今は50個までの制限
     for i in range(0,50):
-        time.sleep(2)
+        time.sleep(10)
         botList[i] = Process(target=bot, args=(i+1,AIlist,Words,))#自分のidと共有メモリのbot情報と共有メモリの検索条件を持つ
         botList[i].start()#RTbot50個を動かす
 

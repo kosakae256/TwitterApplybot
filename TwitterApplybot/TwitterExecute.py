@@ -4,6 +4,7 @@ import tweepy
 import datetime
 import os.path
 from usefullFunctions import rh
+import random
 
 class TwitterExecuteAPI():
     def __init__(self,AIlist,words): #TwitterExecuteクラス Falseを返したら凍結してます。api情報を返したら少なくとも凍結はしてないです。
@@ -27,17 +28,19 @@ class TwitterExecuteAPI():
         #self.resultsに全部情報が入ってる
         #self.resultsをforで回して、RTといいねをするよ。エラー馬鹿分かりずらいから念のためtryを掛けておく。あとリツイート一回したことあったら処理とばす
         for result in self.results:
-            time.sleep(2.5)
-            if (result.retweeted == False):#リツイートされていなかったら
+            time.sleep(20)
+            if random.randint(1,2) == 1:
+                continue
+            if (result[0] == False):#リツイートされていなかったら
                 try:
-                    self.api.retweet(result.id)
+                    self.api.retweet(result[1])
                     #print("リツイートしたよ")
                 except:
                     pass
 
-            if (result.favorited == False):#いいねされてなかったら
+            if (result[2] == False):#いいねされてなかったら
                 try:
-                    self.api.create_favorite(result.id)
+                    self.api.create_favorite(result[1])
                 except:
                     pass
 
@@ -49,7 +52,7 @@ class TwitterExecuteAPI():
             self.target_users = self.target_users[-10:-1]
 
         for target in self.target_users:
-            time.sleep(5)
+            time.sleep(10)
             try:
                 self.api.create_friendship(target)
                 #print(target)
@@ -119,7 +122,7 @@ class TwitterExecuteAPI():
                 if (result.text in self.results_text) or (result.is_quote_status == True) or (result.retweeted==True) or (hantei==0):#今まで見たツイートと同一か、引用ツイートか,自分はこのツイートをすでにRTしているか
                     continue
                 self.results_text.append(result.text)
-                self.results.append(result)
+                self.results.append([result.retweeted , result.id , result.favorited , result.text , result.user.screen_name , result.user.following])
 
         results = [] #疑似メモリ解放
 
@@ -128,11 +131,11 @@ class TwitterExecuteAPI():
         #self.resultsからフォロー対象者(全員)
         for result in self.results:#RTしたツイートの情報を回します
             try:
-                target = result.text.split(':')[0].split('@')[1]#誰がツイートしたのか正確に判別
+                target = result[3].split(':')[0].split('@')[1]#誰がツイートしたのか正確に判別
             except:
-                target = result.user.screen_name #target変数にフォロー対象者の名前を格納
+                target = result[4] #target変数にフォロー対象者の名前を格納
 
-            if (result.user.following == False) and (target not in self.target_users) and (target != self.myname): #ユーザーをフォローしていないこと、この処理中に同じ人を指していないか、自分を指していないか
+            if (result[5] == False) and (target not in self.target_users) and (target != self.myname): #ユーザーをフォローしていないこと、この処理中に同じ人を指していないか、自分を指していないか
                 self.target_users.append(target)
                 if self.myname in self.target_users:
                     self.target_users.remove(self.myname) #self.myname(自分)をリストから削除します。これは念のための処置です

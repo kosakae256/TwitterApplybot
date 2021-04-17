@@ -49,6 +49,19 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             else: #凍結していなかったら
                 AIlist[myindex] = [AIlist[myindex][0],AIlist[myindex][1],AIlist[myindex][2],AIlist[myindex][3],AIlist[myindex][4],AIlist[myindex][5],False]#freezeをfalseに
 
+            follow_count = Api.api.get_user(screen_name=Api.myname).friends_count
+
+            if follow_count == 0:
+                time.sleep(30*60)
+                print("凍結or制限")
+                time.sleep(30*60)
+                continue
+
+            if follow_count <= 500:
+                print(Api.myname,"follow : (" , follow_count , ")はbot動作条件を満たしていないため、フォローbot化します")
+                Api.follow14users()
+                time.sleep(60)
+                continue
 
             Api.get_tweets()#懸賞ツイートを取得、情報を格納
             #Api.test()#テストコードの実行
@@ -58,7 +71,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
             num += 1#起動回数
             Api.targetUsersCreate() #フォローすべき人の最新の28件を作ります
 
-            if num%2 == 0: #1時間に一回フォローをするための処理
+            if num%1 == 0: #1時間に一回フォローをするための処理
                 Api.follow() #最新の28人をフォローします
                 print(f"Followbot{ID}の処理 {int(num/2)}回目終了")
 
@@ -70,7 +83,7 @@ def bot(ID,AIlist,Words):#AIdictにはデータベースを基にしたリスト
 
         try:
             print(f"RTbot{ID} 待機")
-            time.sleep(30*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
+            time.sleep(15*60)#30分待ち、エラーを意図的に起こせばすぐにしたが実行される
         except:
             pass
 
@@ -109,8 +122,8 @@ def main():
     AIlist = manager.list(AIlistCreate(DATABASE_URL))#botの情報一式をdbから受け取り、共有メモリに格納
     Words = manager.list(WordsCreate(DATABASE_URL))#検索条件をdbから(上と類似)
 
-    botList=[0 for i in range(0,50)]#botのサブプロセスリスト 今は50個までの制限
-    for i in range(0,50):
+    botList=[0 for i in range(0,30)]#botのサブプロセスリスト 今は50個までの制限
+    for i in range(0,30):
         time.sleep(10)
         botList[i] = Process(target=bot, args=(i+1,AIlist,Words,))#自分のidと共有メモリのbot情報と共有メモリの検索条件を持つ
         botList[i].start()#RTbot50個を動かす

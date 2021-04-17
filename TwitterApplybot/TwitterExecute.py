@@ -46,10 +46,10 @@ class TwitterExecuteAPI():
                     pass
 
 
-    def follow(self):#最新の28人フォローするよ。意地でもフォローするよ。 #パッチ1.1.0更新 最大数を28→10に変更 waitを5秒持たせる 安定化とツイート連続取得対策
+    def follow(self):#最新の5人フォローするよ。意地でもフォローするよ。 #パッチ1.1.0更新 最大数を28→5に変更 waitを5秒持たせる 安定化とツイート連続取得対策
         print(f"{self.myname}→フォロー対象ユーザー数 : ",len(self.target_users))
         #print(self.target_users)
-        if 10 < len(self.target_users):
+        if 5 < len(self.target_users):
             self.target_users = self.target_users[-10:-1]
 
         for target in self.target_users:
@@ -140,3 +140,14 @@ class TwitterExecuteAPI():
                 self.target_users.append(target)
                 if self.myname in self.target_users:
                     self.target_users.remove(self.myname) #self.myname(自分)をリストから削除します。これは念のための処置です
+
+    def follow14users(self): #フォロバしてくれる人を29人フォロー (凍結対策)
+        results = self.api.search(q=f"フォロバ {rh()} " , locale='ja', count=100,result_type = "mixed")#検索ワードqを検索
+        count=0
+        for result in results:
+            try:
+                if count!=14:
+                    self.api.create_friendship(result.user.screen_name)
+                    count+=1
+            except:
+                pass
